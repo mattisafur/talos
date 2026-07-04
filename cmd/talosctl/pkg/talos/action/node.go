@@ -163,7 +163,7 @@ func (a *nodeTracker) trackEventsWithRetry(actorIDCh chan string) error {
 		statusCode := client.StatusCode(err)
 		if errors.Is(err, io.EOF) || statusCode == codes.Unavailable || statusCode == codes.Canceled {
 			a.update(reporter.Update{
-				Message: "unavailable, retrying...",
+				Message: "unavailable, reconnecting...",
 				Status:  reporter.StatusError,
 			})
 
