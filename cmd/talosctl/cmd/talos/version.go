@@ -72,12 +72,18 @@ var versionCmd = &cobra.Command{
 
 		var errs error
 
+		first := true
 		for resp := range respCh {
 			if resp.Err != nil {
 				errs = errors.Join(errs, fmt.Errorf("error getting version from node %s: %w", resp.Node, resp.Err))
 
 				continue
 			}
+
+			if !first && !versionCmdFlags.json {
+				fmt.Println()
+			}
+			first = false
 
 			errs = errors.Join(errs, printVersionResponse(resp.Node, resp.Payload))
 		}
